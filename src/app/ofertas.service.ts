@@ -33,6 +33,12 @@ export class OfertasService {
         return this.http.get(`${API_URL}/como-usar?id=${id}`)
             .toPromise().then((resposta) => {return resposta.json()[0].descricao})
     }
+
+    public getOndeFicaOfertaPorId(id: number): Promise<String> {
+        return this.http.get(`${API_URL}/onde-fica?id=${id}`)
+            .toPromise()
+            .then((resposta) => { return resposta.json()[0].descricao})
+    }
     
 
 }
