@@ -1,9 +1,11 @@
 import { Oferta } from './shared/oferta.model'
 import {Injectable} from '@angular/core'
+import { Observable } from 'rxjs/Observable'
 import { Http } from '@angular/http'
 import { API_URL } from './app.api'
 
 import 'rxjs/add/operator/toPromise'
+import 'rxjs/add/operator/map'
 
 @Injectable()
 export class OfertasService {
@@ -38,6 +40,11 @@ export class OfertasService {
         return this.http.get(`${API_URL}/onde-fica?id=${id}`)
             .toPromise()
             .then((resposta) => { return resposta.json()[0].descricao})
+    }
+
+    public pesquisarOfertas(termo: string): Observable<Oferta[]> {
+        return this.http.get(`${API_URL}/ofertas?descricao_oferta_like=${termo}`)
+            .map((resposta: any) => resposta.json())
     }
     
 
