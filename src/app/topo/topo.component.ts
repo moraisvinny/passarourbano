@@ -16,7 +16,7 @@ import '../util/rxjs-extensions'
 export class TopoComponent implements OnInit {
 
   public ofertas: Observable<Oferta[]>
-  public ofertas2: Oferta[]
+  
   private subjectPesquisa: Subject<string> = new Subject<string>()
 
   constructor(private ofertasService: OfertasService) { }
@@ -37,18 +37,17 @@ export class TopoComponent implements OnInit {
         console.log(erro)
         return Observable.of<Oferta[]>([])
       })
-
-    //this.subjectPesquisa.subscribe({next: (ofertas: string) => console.log(ofertas)})
-    this.ofertas.subscribe({ next: (ofertas: Oferta[]) => {
-      console.log(ofertas) 
-      this.ofertas2 = ofertas
-    }})
-
   }
   pesquisar(valor: string): void {
 
       this.subjectPesquisa.next(valor)
     
   }
+
+  limparPesquisa() : void {
+    
+    this.subjectPesquisa.next('')
+  }
+
 
 }

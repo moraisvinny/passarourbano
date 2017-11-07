@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Params } from '@angular/router'
 import { OfertasService } from '../ofertas.service'
 import { Oferta } from '../shared/oferta.model'
 import { Observable } from 'rxjs/Observable'
@@ -18,23 +18,16 @@ export class OfertaComponent implements OnInit {
   constructor(private route: ActivatedRoute, private ofertasService: OfertasService) { }
 
   ngOnInit() {
-    //console.log("parametros => "+this.route.snapshot.params.id)
-    this.ofertasService.getOfertaPorId(this.route.snapshot.params.id)
-      .then((oferta: Oferta) => {
-        this.oferta = oferta
-        //console.log(this.oferta)
-      })
-      /**
-      let meuObservableTeste = Observable.create((observer: Observer<String>) => {
-          observer.next("TESTE OBSERVABLE")
-          observer.complete() 
-      })
+    
+    this.route.params.subscribe((parametros: Params) => {
 
-      meuObservableTeste.subscribe(
-        (resultado: any) => console.log(resultado),
-        (erro: any) => console.log(erro),
-        () => console.log("Stream finalizada")
-      )  */
+      this.ofertasService.getOfertaPorId(parametros.id)
+        .then((oferta: Oferta) => {
+          this.oferta = oferta
+          
+        })
+    })
+      
   }
 
 }
