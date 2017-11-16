@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+
 import { OrdemCompraService } from '../ordem-compra.service'
-import { NgForm } from '@angular/forms'
 import { Pedido } from '../shared/pedido.model'
 
 @Component({
@@ -11,26 +12,42 @@ import { Pedido } from '../shared/pedido.model'
 })
 export class OrdemCompraComponent implements OnInit {
 
-  @ViewChild('formulario')
-  public formulario: NgForm
-  
-  public idOrdemCompra: number
+
+  public formulario: FormGroup = new FormGroup({
+    "endereco": new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(120)]),
+    "numero": new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
+    "complemento": new FormControl(null),
+    "formaPagamento": new FormControl(null, [Validators.required]),
+  })
+
+  public idOrdemCompra
   constructor(private ordemCompraService: OrdemCompraService) { }
 
   ngOnInit() {
     
   }
 
-  public confirmarCompra() : void {
-    let valores  = this.formulario.value
-    let pedido: Pedido = new Pedido(
-      valores.endereco, 
-      valores.numero,
-      valores.complemento,
-      valores.formaPagamento, 
-      null)
+  public confirmarCompra(): void {
 
-      this.ordemCompraService.efetivarCompra(pedido)
-      .subscribe((idPedido: number)=>{this.idOrdemCompra = idPedido})
+    if(this.formulario.status === "INVALID") {
+      this.formulario.get('endereco').markAsTouched()
+      this.formulario.get('numero').markAsTouched()
+      this.formulario.get('complemento').markAsTouched()
+      this.formulario.get('formaPagamento').markAsTouched()
+
+    } else {
+
+      let pedido: Pedido = new Pedido(
+        this.formulario.value.endereco,
+        this.formulario.value.numero,
+        this.formulario.value.complemento,
+        this.formulario.value.formaPagamento,
+        null
+      )
+
+      this.ordemCompraService.efetivarCompra(pedido).subscribe((idPedido: Number) => {
+        this.idOrdemCompra = idPedido
+      })
+    }
   }
 }
