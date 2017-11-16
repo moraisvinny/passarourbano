@@ -10,6 +10,8 @@ import { Pedido } from '../shared/pedido.model'
 })
 export class OrdemCompraComponent implements OnInit {
 
+
+  public idPedidoCompra: number
   public endereco: string = ''
   public numero: string = ''
   public complemento: string = ''
@@ -21,9 +23,9 @@ export class OrdemCompraComponent implements OnInit {
   public formaPagamentoValido: boolean
 
   public enderecoEstadoPrimitivo: boolean = true
-  public numeroEstadoPrimitivo: boolean  = true
+  public numeroEstadoPrimitivo: boolean = true
   public complementoEstadoPrimitivo: boolean = true
-  public formaPagamentoEstadoPrimitivo: boolean  = true
+  public formaPagamentoEstadoPrimitivo: boolean = true
 
   public formEstado: string = 'disabled'
 
@@ -32,7 +34,7 @@ export class OrdemCompraComponent implements OnInit {
   ngOnInit() {
   }
 
-  public setEndereco(endereco: string) : void {
+  public setEndereco(endereco: string): void {
     this.endereco = endereco
     this.enderecoEstadoPrimitivo = false
 
@@ -41,29 +43,29 @@ export class OrdemCompraComponent implements OnInit {
 
   }
 
-  public setNumero(numero: string) : void {
+  public setNumero(numero: string): void {
     this.numero = numero
     this.numeroEstadoPrimitivo = false
     this.numeroValido = this.numero != ''
     this.habilitaForm()
-  } 
+  }
 
-  public setComplemento(compelemento: string) : void {
+  public setComplemento(compelemento: string): void {
     this.complemento = compelemento
     this.complementoEstadoPrimitivo = false
     this.complementoValido = this.complemento != ''
     this.habilitaForm()
   }
 
-  public setFormaPagamento(formaPagamento: string) : void {
+  public setFormaPagamento(formaPagamento: string): void {
     this.formaPagamento = formaPagamento
     this.formaPagamentoEstadoPrimitivo = false
-    this.formaPagamentoValido  = formaPagamento !== ''
+    this.formaPagamentoValido = formaPagamento !== ''
     this.habilitaForm()
   }
 
   public habilitaForm(): void {
-    if(this.enderecoValido && this.numeroValido && this.formaPagamentoValido) {
+    if (this.enderecoValido && this.numeroValido && this.formaPagamentoValido) {
       this.formEstado = ''
     } else {
       this.formEstado = 'disabled'
@@ -71,7 +73,15 @@ export class OrdemCompraComponent implements OnInit {
   }
 
   public confirmarCompra() {
-    var pedido: Pedido = new Pedido(this.endereco, this.numero,this.complemento, this.formaPagamento)
+    var pedido: Pedido = new Pedido(
+      this.endereco, 
+      this.numero, 
+      this.complemento, 
+      this.formaPagamento, 
+      null)
     this.ordemCompraService.efetivarCompra(pedido)
+      .subscribe((pedido: number) => { 
+        this.idPedidoCompra = pedido
+       })
   }
 }
