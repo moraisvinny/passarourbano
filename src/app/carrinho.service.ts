@@ -1,6 +1,6 @@
 import { ItemCarrinho } from './shared/item-carrinho.model'
 import { Oferta } from './shared/oferta.model'
-class CarrinhoService {
+export class CarrinhoService {
 
     public itens: ItemCarrinho[] = []
 
@@ -19,8 +19,6 @@ class CarrinhoService {
             1
         )
 
-        console.log(itemCarrinho)
+        this.itens.push(itemCarrinho)
     }
 }
-
-export default CarrinhoService  

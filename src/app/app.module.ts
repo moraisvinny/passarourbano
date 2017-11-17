@@ -20,6 +20,8 @@ import { DescricaoReduzida } from './util/descricao-reduzida.pipe';
 import { OrdemCompraComponent } from './ordem-compra/ordem-compra.component';
 import { OrdemCompraSucessoComponent } from './ordem-compra-sucesso/ordem-compra-sucesso.component';
 
+import { CarrinhoService } from './carrinho.service'
+
 
 @NgModule({
   declarations: [
@@ -46,7 +48,7 @@ import { OrdemCompraSucessoComponent } from './ordem-compra-sucesso/ordem-compra
     
 
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'pt-Br'}],
+  providers: [CarrinhoService, {provide: LOCALE_ID, useValue: 'pt-Br'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

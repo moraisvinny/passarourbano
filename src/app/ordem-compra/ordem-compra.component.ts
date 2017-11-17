@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 
 import { OrdemCompraService } from '../ordem-compra.service'
-import CarrinhoService from '../carrinho.service'
+import { CarrinhoService } from '../carrinho.service'
 import { Pedido } from '../shared/pedido.model'
+import { ItemCarrinho } from '../shared/item-carrinho.model';
 
 @Component({
   selector: 'app-ordem-compra',
   templateUrl: './ordem-compra.component.html',
   styleUrls: ['./ordem-compra.component.css'],
-  providers: [OrdemCompraService, CarrinhoService]
+  providers: [OrdemCompraService]
 })
 export class OrdemCompraComponent implements OnInit {
 
@@ -22,12 +23,14 @@ export class OrdemCompraComponent implements OnInit {
   })
 
   public idOrdemCompra
+  public itensCarrinho: ItemCarrinho[] = []
   constructor(
     private ordemCompraService: OrdemCompraService, 
     private carrinhoService: CarrinhoService) { }
 
   ngOnInit() {
-    console.log(this.carrinhoService.exibirItens())
+    
+    this.itensCarrinho = this.carrinhoService.exibirItens()
   }
 
   public confirmarCompra(): void {
